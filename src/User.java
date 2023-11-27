@@ -1,4 +1,4 @@
 public abstract class User {
-    public int id;
+    public String userName;
     public abstract void EditPersonalInformation();
 }
