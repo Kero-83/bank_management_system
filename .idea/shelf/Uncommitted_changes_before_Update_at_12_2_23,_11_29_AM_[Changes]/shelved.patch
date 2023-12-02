@@ -1,0 +1,165 @@
+Index: src/Withdraw.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public class Withdraw extends Transaction{\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Withdraw.java b/src/Withdraw.java
+--- a/src/Withdraw.java	(revision 622b1e0a8f42a00b3b01c5ae7a60a925e142d4a1)
++++ b/src/Withdraw.java	(date 1701438252221)
+@@ -1,2 +1,5 @@
+ public class Withdraw extends Transaction{
++    protected Withdraw(String date, int value, BankAccount bankAccount) {
++        super(date, value, bankAccount);
++    }
+ }
+Index: src/BankAccount.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public abstract class BankAccount {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/BankAccount.java b/src/BankAccount.java
+--- a/src/BankAccount.java	(revision 622b1e0a8f42a00b3b01c5ae7a60a925e142d4a1)
++++ b/src/BankAccount.java	(date 1701508924046)
+@@ -1,2 +1,3 @@
+ public abstract class BankAccount {
++    protected int balance;
+ }
+Index: src/Transaction.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public abstract class Transaction {\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Transaction.java b/src/Transaction.java
+--- a/src/Transaction.java	(revision 622b1e0a8f42a00b3b01c5ae7a60a925e142d4a1)
++++ b/src/Transaction.java	(date 1701438209426)
+@@ -1,2 +1,10 @@
+ public abstract class Transaction {
++    protected String date;
++    protected int value;
++    protected BankAccount bankAccount;
++    protected Transaction(String date, int value, BankAccount bankAccount){
++        this.date = date;
++        this.value = value;
++        this.bankAccount = bankAccount;
++    }
+ }
+Index: src/Deposit.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public class Deposit extends Transaction{\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Deposit.java b/src/Deposit.java
+--- a/src/Deposit.java	(revision 622b1e0a8f42a00b3b01c5ae7a60a925e142d4a1)
++++ b/src/Deposit.java	(date 1701438252225)
+@@ -1,2 +1,5 @@
+ public class Deposit extends Transaction{
++    protected Deposit(String date, int value, BankAccount bankAccount) {
++        super(date, value, bankAccount);
++    }
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"906cd0c1-b865-4ddb-96b5-7934a7cbe450\" name=\"Changes\" comment=\"test5\" />\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 2\n}</component>\n  <component name=\"ProjectId\" id=\"2Yf83Vvq3qHyCzXtolKS1xRXkLe\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\n    &quot;onboarding.tips.debug.path&quot;: &quot;/home/kero/IdeaProjects/bank_management_system/src/Main.java&quot;\n  }\n}</component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"906cd0c1-b865-4ddb-96b5-7934a7cbe450\" name=\"Changes\" comment=\"\" />\n      <created>1700905075083</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1700905075083</updated>\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"test\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701119226745</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701119226745</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"test2\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701120003772</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701120003772</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"test1\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701120143006</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701120143006</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"test5\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701120209162</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701120209162</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"5\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"test\" />\n    <MESSAGE value=\"test2\" />\n    <MESSAGE value=\"test1\" />\n    <MESSAGE value=\"test5\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"test5\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 622b1e0a8f42a00b3b01c5ae7a60a925e142d4a1)
++++ b/.idea/workspace.xml	(date 1701508939258)
+@@ -4,7 +4,13 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="906cd0c1-b865-4ddb-96b5-7934a7cbe450" name="Changes" comment="test5" />
++    <list default="true" id="906cd0c1-b865-4ddb-96b5-7934a7cbe450" name="Changes" comment="Initialize Classes">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/BankAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BankAccount.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Deposit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Deposit.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Transaction.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Withdraw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Withdraw.java" afterDir="false" />
++    </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+@@ -12,6 +18,7 @@
+   </component>
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++    <option name="UPDATE_TYPE" value="REBASE" />
+   </component>
+   <component name="MarkdownSettingsMigration">
+     <option name="stateVersion" value="1" />
+@@ -20,7 +27,10 @@
+   &quot;associatedIndex&quot;: 2
+ }</component>
+   <component name="ProjectId" id="2Yf83Vvq3qHyCzXtolKS1xRXkLe" />
+-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
++  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
++    <OptionsSetting value="false" id="Update" />
++    <ConfirmationsSetting value="2" id="Add" />
++  </component>
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+@@ -42,39 +52,6 @@
+       <option name="presentableId" value="Default" />
+       <updated>1700905075083</updated>
+     </task>
+-    <task id="LOCAL-00001" summary="test">
+-      <option name="closed" value="true" />
+-      <created>1701119226745</created>
+-      <option name="number" value="00001" />
+-      <option name="presentableId" value="LOCAL-00001" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1701119226745</updated>
+-    </task>
+-    <task id="LOCAL-00002" summary="test2">
+-      <option name="closed" value="true" />
+-      <created>1701120003772</created>
+-      <option name="number" value="00002" />
+-      <option name="presentableId" value="LOCAL-00002" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1701120003772</updated>
+-    </task>
+-    <task id="LOCAL-00003" summary="test1">
+-      <option name="closed" value="true" />
+-      <created>1701120143006</created>
+-      <option name="number" value="00003" />
+-      <option name="presentableId" value="LOCAL-00003" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1701120143006</updated>
+-    </task>
+-    <task id="LOCAL-00004" summary="test5">
+-      <option name="closed" value="true" />
+-      <created>1701120209162</created>
+-      <option name="number" value="00004" />
+-      <option name="presentableId" value="LOCAL-00004" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1701120209162</updated>
+-    </task>
+-    <option name="localTasksCounter" value="5" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -88,11 +65,4 @@
+       </map>
+     </option>
+   </component>
+-  <component name="VcsManagerConfiguration">
+-    <MESSAGE value="test" />
+-    <MESSAGE value="test2" />
+-    <MESSAGE value="test1" />
+-    <MESSAGE value="test5" />
+-    <option name="LAST_COMMIT_MESSAGE" value="test5" />
+-  </component>
+ </project>
+\ No newline at end of file
