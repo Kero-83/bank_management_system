@@ -7,8 +7,8 @@ public class Bank {
         Scanner scanner = new Scanner(System.in);
         Admin admin = new Admin();
         Boolean window_1 = true;
+        Lists.getListsFromFiles();
         while (window_1){
-
             System.out.println("FCIS Bank Management System");
             System.out.println();
             System.out.println("1- Login As Admin");
@@ -33,6 +33,7 @@ public class Bank {
                     continue;
             }
         }
+        Lists.addListsToFiles();
     }
     public static void LogInAsEmployee(Scanner scanner){
         String userName, password;
