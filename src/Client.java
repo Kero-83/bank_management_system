@@ -1,6 +1,8 @@
+import java.util.Scanner;
+
 public class Client extends User{
     @Override
-    public void EditPersonalInformation()
+    public void EditPersonalInformation(Scanner scanner)
     {
 
     }
