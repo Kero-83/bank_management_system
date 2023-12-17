@@ -1,11 +1,16 @@
 import java.util.Scanner;
 
 public abstract class User {
-    public int id;
+    protected int id;
     protected String password;
-    public String firstName;
-    public String surName;
+    protected String firstName;
+    protected String surName;
+    protected String username;
 
+    @Override
+    public String toString() {
+        return "ID: " + id + " First Name: " + firstName + " Last Name: " + surName;
+    }
     public void EditPersonalInformation(Scanner scanner){
         window: while (true) {
             System.out.println("Choose What you want to edit");

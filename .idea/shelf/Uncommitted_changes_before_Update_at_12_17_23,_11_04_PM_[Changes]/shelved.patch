@@ -1,0 +1,763 @@
+Index: src/Client.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.util.Scanner;\n\npublic class Client extends User{\n    public double salary;\n    public void DisplayDetails(){}\n    public void TransferMoneyToAnotherAccount(){}\n    public void ShowTransactionHistory(){}\n    public void TakeDepositFromAccount(){}\n    public void WithdrawFromAccount(){}\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Client.java b/src/Client.java
+--- a/src/Client.java	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ b/src/Client.java	(date 1702846981058)
+@@ -1,10 +1,89 @@
+ import java.util.Scanner;
+ 
+ public class Client extends User{
+-    public double salary;
+-    public void DisplayDetails(){}
+-    public void TransferMoneyToAnotherAccount(){}
+-    public void ShowTransactionHistory(){}
+-    public void TakeDepositFromAccount(){}
+-    public void WithdrawFromAccount(){}
+-}
++    public Client(int id, String password, String firstName, String surName, String username, String type_of_the_account) {
++        this.id = id;
++        this.password = password;
++        this.firstName = firstName;
++        this.surName = surName;
++        this.username = username;
++        if (type_of_the_account.equals("Current")) {
++            account = new CurrentAccount();
++        } else {
++            account = new SavingAccount();
++        }
++    }
++
++    public void setAccountState(boolean state) {
++        this.account.activeStatus = state;
++    }
++    public boolean getAccountState() {
++        return account.activeStatus;
++    }
++
++    private BankAccount account;
++    private String telephone;
++    private String state_of_the_account;
++    private String type_of_the_account;
++
++
++    public void information(int id, String first_name, String last_name, BankAccount account, String username, String password, String telephone, String state_of_the_account, String type_of_the_account) {
++        this.id = id;
++        this.firstName = first_name;
++        this.surName = last_name;
++        this.account = account;
++        this.username = username;
++        this.password = password;
++        this.telephone = telephone;
++        this.state_of_the_account = state_of_the_account;
++        this.type_of_the_account = type_of_the_account;
++        this.account.balance = account.balance;
++    }
++
++    public void Edit_personal_information(String first_name, String last_name, String telephone) {
++        this.firstName = first_name;
++        this.surName = last_name;
++        this.telephone = telephone;
++
++    }
++
++    public void Display_details_of_his_account() {
++        System.out.println("Account Number is : " + account.account_number);
++        System.out.println("First Name is  : " + firstName);
++        System.out.println("Last Name is : " + firstName);
++        System.out.println("Telephone Number is : " + telephone);
++        System.out.println("Account State  : " + state_of_the_account);
++        System.out.println("Account Type is : " + type_of_the_account);
++        System.out.println("Account Balance is : " + account.balance);
++
++    }
++
++    public void Transfer_money_to_another_clients_account(Client recipient , double amount, String date){
++        if(account.balance >=amount){
++            account.balance-=amount;
++            recipient.deposit(amount , date, account);
++            System.out.println("Transfer successful !");
++            recipient.account.balance += amount;
++            Lists.transactions.add(new Transfer(date, amount, account, recipient.account));
++        }else{
++            System.out.println("failed !");
++        }
++    }
++    public void deposit(double amount, String date, BankAccount bankAccount){
++        account.balance+=amount;
++        System.out.println("Deposit successful ! .\n Current balance :"+account.balance );
++        Lists.transactions.add(new Deposit(date, amount, bankAccount));
++    }
++    public void showTransactionHistory() {
++        for (Transaction transaction : Lists.transactions) {
++            if (transaction.bankAccount == account) {
++                System.out.println(transaction);
++            }
++        }
++    }
++
++    @Override
++    public String toString() {
++        return super.toString();
++    }
++}
+\ No newline at end of file
+Index: src/Bank.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.util.Scanner;\n\n// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,\n// then press Enter. You can now see whitespace characters in your code.\npublic class Bank {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        Admin admin = new Admin();\n        Boolean window_1 = true;\n        Lists.getListsFromFiles();\n        while (window_1){\n            System.out.println(\"FCIS Bank Management System\");\n            System.out.println();\n            System.out.println(\"1- Login As Admin\");\n            System.out.println(\"2- Login As Employee\");\n            System.out.println(\"3- Login As Client\");\n            System.out.println(\"4- Exit\");\n            int input = scanner.nextInt();\n            switch (input){\n                case 1:\n                    LogInAsAdmin(scanner, admin);\n                    break;\n                case 2:\n                    LogInAsEmployee(scanner);\n                    break;\n                case 3:\n                    LogInAsClient(scanner);\n                case 4:\n                    window_1 = false;\n                    break;\n                default:\n                    System.out.println(\"Invaild input\");\n                    continue;\n            }\n        }\n        Lists.addListsToFiles();\n    }\n    public static void LogInAsEmployee(Scanner scanner){\n        String userName, password;\n        System.out.print(\"Username: \");\n        userName = scanner.next();\n        System.out.print(\"Password: \");\n        password = scanner.next();\n//        if (userName.equals(.userName)){\n//            System.out.println(\"Wrong username\");\n//        }\n//        if(password.equals(admin.getPassword())) {\n//            System.out.println(\"Wrong Password\");\n//        }\n\n    }\n    public static void LogInAsAdmin(Scanner scanner, Admin admin){\n        String userName, password;\n        System.out.print(\"Username: \");\n        userName = scanner.next();\n        System.out.print(\"Password: \");\n        password = scanner.next();\n        if (userName.equals(admin.userName)){\n            System.out.println(\"Wrong username\");\n        }\n        if(password.equals(admin.getPassword())) {\n            System.out.println(\"Wrong Password\");\n        }\n\n    }\n    public static void LogInAsClient(Scanner scanner){\n        String userName, password;\n        System.out.print(\"Username: \");\n        userName = scanner.next();\n        System.out.print(\"Password: \");\n        password = scanner.next();\n//        if (userName.equals(admin.userName)){\n//            System.out.println(\"Wrong username\");\n//        }\n//        if(password.equals(admin.getPassword())) {\n//            System.out.println(\"Wrong Password\");\n//        }\n\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Bank.java b/src/Bank.java
+--- a/src/Bank.java	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ b/src/Bank.java	(date 1702846588131)
+@@ -29,39 +29,90 @@
+                     window_1 = false;
+                     break;
+                 default:
+-                    System.out.println("Invaild input");
++                    System.out.println("Invalid input");
+                     continue;
+             }
+         }
+         Lists.addListsToFiles();
+     }
+-    public static void LogInAsEmployee(Scanner scanner){
++    public static void LogInAsAdmin(Scanner scanner, Admin admin){
+         String userName, password;
+         System.out.print("Username: ");
+         userName = scanner.next();
+         System.out.print("Password: ");
+         password = scanner.next();
+-//        if (userName.equals(.userName)){
+-//            System.out.println("Wrong username");
+-//        }
+-//        if(password.equals(admin.getPassword())) {
+-//            System.out.println("Wrong Password");
+-//        }
++        if (userName.equals("admin")){
++
++        }
++        else
++        {
++            System.out.println("Wrong username");
++        }
++        if(password.equals("admin")) {
++            window: while (true) {
++                System.out.println("1- Authorize new Employees");
++                System.out.println("2- Display All Clients");
++                System.out.println("3- Display All Employees");
++                System.out.println("4- Show All Transactions");
++                int choice = scanner.nextInt();
++                switch (choice) {
++                    case 1:
++                        System.out.println("Actions:");
++                        System.out.println("1- Authorize Employee");
++                        System.out.println("2- Remove from Waiting");
++                        System.out.println("3- Exit");
++                        int choice1 = scanner.nextInt();
++                        switch (choice1) {
++                            case 1:
++                                admin.DisplayAllNotAuthorizeEmployees();
++                                System.out.print("Choose which one do you want to authorize: ");
++                                int choice2 = scanner.nextInt();
++                                admin.AuthorizeTheNewEmployees(Lists.employees.get(choice2 - 1));
++                                break;
++                            case 2:
++                                admin.DisplayAllNotAuthorizeEmployees();
++                                System.out.print("Choose which one do you want to remove: ");
++                                int choice3 = scanner.nextInt();
++                                admin.NotAuthorizeTheNewEmployees(Lists.employees.get(choice3 - 1));
++                            case 3:
++                                break window;
++                        }
++                }
++            }
++        }
++        else
++        {
++            System.out.println("Wrong Password");
++        }
+ 
+     }
+-    public static void LogInAsAdmin(Scanner scanner, Admin admin){
++    public static void LogInAsEmployee(Scanner scanner){
+         String userName, password;
+         System.out.print("Username: ");
+         userName = scanner.next();
+         System.out.print("Password: ");
+         password = scanner.next();
+-        if (userName.equals(admin.userName)){
+-            System.out.println("Wrong username");
++        boolean notValid = true;
++        for (Employee employee1: Lists.employees) {
++            if (userName.equals(employee1.username) && userName.equals(employee1.password)) {
++                notValid = false;
++                while (true) {
++                    System.out.println("1- Create Client Account");
++                    System.out.println("2- Edit Client Account");
++                    System.out.println("3- Delete Client Account");
++                    System.out.println("4- Search for Client Account");
++                    System.out.println("5- Exit");
++                    int choice = scanner.nextInt();
++                    switch (choice) {
++                        case 1:
++
++                    }
++                }
++            }
+         }
+-        if(password.equals(admin.getPassword())) {
+-            System.out.println("Wrong Password");
++        if(notValid) {
++            System.out.println("wrong password or username");
+         }
+-
+     }
+     public static void LogInAsClient(Scanner scanner){
+         String userName, password;
+Index: src/BankAccount.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public abstract class BankAccount {\n    Client client;\n    protected int balance;\n    protected Boolean activeStatus;\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/BankAccount.java b/src/BankAccount.java
+--- a/src/BankAccount.java	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ b/src/BankAccount.java	(date 1702763939245)
+@@ -1,5 +1,11 @@
+ public abstract class BankAccount {
+     Client client;
+-    protected int balance;
++    protected double balance;
++    protected int account_number;
+     protected Boolean activeStatus;
++
++    @Override
++    public String toString() {
++        return client.toString() + ' ' + balance;
++    }
+ }
+Index: src/Employee.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.util.Scanner;\n\npublic class Employee extends User{\n    public void CreateClientAccount(){\n\n    }\n    public void EditClientAccount(Client client){}\n    public void DeleteClientAccount(Client client){\n\n    }\n    public void SearchForClientAccount(String clientName){\n\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Employee.java b/src/Employee.java
+--- a/src/Employee.java	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ b/src/Employee.java	(date 1702846225628)
+@@ -1,14 +1,63 @@
+ import java.util.Scanner;
+ 
+ public class Employee extends User{
+-    public void CreateClientAccount(){
+-
++    public void CreateClientAccount(Client client)
++    {
++        Lists.clients.add(client);
+     }
+-    public void EditClientAccount(Client client){}
+-    public void DeleteClientAccount(Client client){
+-
+-    }
+-    public void SearchForClientAccount(String clientName){
+-
++    public void EditClientAccount(Scanner scanner, Client client)
++    {
++        window: while (true) {
++            System.out.println("1- Edit password");
++            System.out.println("2- Edit State of The Account");
++            System.out.println("3- Edit Telephone");
++            System.out.println("4- Exit");
++            int choice = scanner.nextInt();
++            switch (choice) {
++                case 1:
++                    System.out.print("Enter New Password: ");
++                    client.password = scanner.next();
++                    break;
++                case 2:
++                    System.out.print("The Current State of The Acount is ");
++                    if(client.getAccountState()) {
++                        System.out.println("Active");
++                    }
++                    else
++                    {
++                        System.out.println("Not Active");
++                    }
++                    System.out.println("Enter Yes if you want to change it the another state");
++                    String choice2 = scanner.next();
++                    if(choice2.equals("choice")) {
++                    client.setAccountState(!client.getAccountState());}
++                    break;
++                case 3:
++                    System.out.print("Enter new Telephone Number: ");
++                    String choice3 = scanner.next();
++                    break;
++                case 4:
++                    break window;
++                default:
++                    continue;
++            }
++        }
++    }
++    public void DeleteClientAccount(Client client)
++    {
++        Lists.clients.remove(client);
++    }
++    public void SearchForClientAccount(String clientName)
++    {
++        for (Client client: Lists.clients) {
++            String name = client.firstName + ' ' + client.surName;
++            if (name.equals(clientName)) {
++                System.out.println(client);
++            }
++        }
++    }
++    @Override
++    public String toString() {
++        return super.toString();
+     }
+ }
+Index: src/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.util.Scanner;\n\npublic abstract class User {\n    public int id;\n    protected String password;\n    public String firstName;\n    public String surName;\n\n    public void EditPersonalInformation(Scanner scanner){\n        window: while (true) {\n            System.out.println(\"Choose What you want to edit\");\n            System.out.println(\"1- Edit User Name\");\n            System.out.println(\"2- Edit Password\");\n            int input = scanner.nextInt();\n            switch (input) {\n                case 1:\n                    System.out.print(\"Enter new First Name: \");\n                    firstName = scanner.next();\n                    System.out.print(\"Enter new Sur Name: \");\n                    surName = scanner.next();\n                    break window;\n                case 2:\n                    System.out.print(\"Enter new Password: \");\n                    password = scanner.next();\n                    break window;\n                default:\n                    continue window;\n            }\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/User.java b/src/User.java
+--- a/src/User.java	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ b/src/User.java	(date 1702846225620)
+@@ -1,11 +1,16 @@
+ import java.util.Scanner;
+ 
+ public abstract class User {
+-    public int id;
++    protected int id;
+     protected String password;
+-    public String firstName;
+-    public String surName;
++    protected String firstName;
++    protected String surName;
++    protected String username;
+ 
++    @Override
++    public String toString() {
++        return "ID: " + id + " First Name: " + firstName + " Last Name: " + surName;
++    }
+     public void EditPersonalInformation(Scanner scanner){
+         window: while (true) {
+             System.out.println("Choose What you want to edit");
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_12_2_23,_11_29_AM_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_23,_11_29_AM_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_23,_11_29_AM_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_23,_11_29_AM_[Changes]/shelved.patch	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ /dev/null	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
+@@ -1,165 +0,0 @@
+-Index: src/Withdraw.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>public class Withdraw extends Transaction{\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/Withdraw.java b/src/Withdraw.java
+---- a/src/Withdraw.java	(revision 622b1e0a8f42a00b3b01c5ae7a60a925e142d4a1)
+-+++ b/src/Withdraw.java	(date 1701438252221)
+-@@ -1,2 +1,5 @@
+- public class Withdraw extends Transaction{
+-+    protected Withdraw(String date, int value, BankAccount bankAccount) {
+-+        super(date, value, bankAccount);
+-+    }
+- }
+-Index: src/BankAccount.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>public abstract class BankAccount {\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/BankAccount.java b/src/BankAccount.java
+---- a/src/BankAccount.java	(revision 622b1e0a8f42a00b3b01c5ae7a60a925e142d4a1)
+-+++ b/src/BankAccount.java	(date 1701508924046)
+-@@ -1,2 +1,3 @@
+- public abstract class BankAccount {
+-+    protected int balance;
+- }
+-Index: src/Transaction.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>public abstract class Transaction {\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/Transaction.java b/src/Transaction.java
+---- a/src/Transaction.java	(revision 622b1e0a8f42a00b3b01c5ae7a60a925e142d4a1)
+-+++ b/src/Transaction.java	(date 1701438209426)
+-@@ -1,2 +1,10 @@
+- public abstract class Transaction {
+-+    protected String date;
+-+    protected int value;
+-+    protected BankAccount bankAccount;
+-+    protected Transaction(String date, int value, BankAccount bankAccount){
+-+        this.date = date;
+-+        this.value = value;
+-+        this.bankAccount = bankAccount;
+-+    }
+- }
+-Index: src/Deposit.java
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>public class Deposit extends Transaction{\n}\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/src/Deposit.java b/src/Deposit.java
+---- a/src/Deposit.java	(revision 622b1e0a8f42a00b3b01c5ae7a60a925e142d4a1)
+-+++ b/src/Deposit.java	(date 1701438252225)
+-@@ -1,2 +1,5 @@
+- public class Deposit extends Transaction{
+-+    protected Deposit(String date, int value, BankAccount bankAccount) {
+-+        super(date, value, bankAccount);
+-+    }
+- }
+-Index: .idea/workspace.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"906cd0c1-b865-4ddb-96b5-7934a7cbe450\" name=\"Changes\" comment=\"test5\" />\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 2\n}</component>\n  <component name=\"ProjectId\" id=\"2Yf83Vvq3qHyCzXtolKS1xRXkLe\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\n    &quot;onboarding.tips.debug.path&quot;: &quot;/home/kero/IdeaProjects/bank_management_system/src/Main.java&quot;\n  }\n}</component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"906cd0c1-b865-4ddb-96b5-7934a7cbe450\" name=\"Changes\" comment=\"\" />\n      <created>1700905075083</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1700905075083</updated>\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"test\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701119226745</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701119226745</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"test2\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701120003772</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701120003772</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"test1\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701120143006</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701120143006</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"test5\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701120209162</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701120209162</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"5\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"test\" />\n    <MESSAGE value=\"test2\" />\n    <MESSAGE value=\"test1\" />\n    <MESSAGE value=\"test5\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"test5\" />\n  </component>\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+---- a/.idea/workspace.xml	(revision 622b1e0a8f42a00b3b01c5ae7a60a925e142d4a1)
+-+++ b/.idea/workspace.xml	(date 1701508939258)
+-@@ -4,7 +4,13 @@
+-     <option name="autoReloadType" value="SELECTIVE" />
+-   </component>
+-   <component name="ChangeListManager">
+--    <list default="true" id="906cd0c1-b865-4ddb-96b5-7934a7cbe450" name="Changes" comment="test5" />
+-+    <list default="true" id="906cd0c1-b865-4ddb-96b5-7934a7cbe450" name="Changes" comment="Initialize Classes">
+-+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/BankAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BankAccount.java" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/Deposit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Deposit.java" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Transaction.java" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/src/Withdraw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Withdraw.java" afterDir="false" />
+-+    </list>
+-     <option name="SHOW_DIALOG" value="false" />
+-     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+-@@ -12,6 +18,7 @@
+-   </component>
+-   <component name="Git.Settings">
+-     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+-+    <option name="UPDATE_TYPE" value="REBASE" />
+-   </component>
+-   <component name="MarkdownSettingsMigration">
+-     <option name="stateVersion" value="1" />
+-@@ -20,7 +27,10 @@
+-   &quot;associatedIndex&quot;: 2
+- }</component>
+-   <component name="ProjectId" id="2Yf83Vvq3qHyCzXtolKS1xRXkLe" />
+--  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+-+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+-+    <OptionsSetting value="false" id="Update" />
+-+    <ConfirmationsSetting value="2" id="Add" />
+-+  </component>
+-   <component name="ProjectViewState">
+-     <option name="hideEmptyMiddlePackages" value="true" />
+-     <option name="showLibraryContents" value="true" />
+-@@ -42,39 +52,6 @@
+-       <option name="presentableId" value="Default" />
+-       <updated>1700905075083</updated>
+-     </task>
+--    <task id="LOCAL-00001" summary="test">
+--      <option name="closed" value="true" />
+--      <created>1701119226745</created>
+--      <option name="number" value="00001" />
+--      <option name="presentableId" value="LOCAL-00001" />
+--      <option name="project" value="LOCAL" />
+--      <updated>1701119226745</updated>
+--    </task>
+--    <task id="LOCAL-00002" summary="test2">
+--      <option name="closed" value="true" />
+--      <created>1701120003772</created>
+--      <option name="number" value="00002" />
+--      <option name="presentableId" value="LOCAL-00002" />
+--      <option name="project" value="LOCAL" />
+--      <updated>1701120003772</updated>
+--    </task>
+--    <task id="LOCAL-00003" summary="test1">
+--      <option name="closed" value="true" />
+--      <created>1701120143006</created>
+--      <option name="number" value="00003" />
+--      <option name="presentableId" value="LOCAL-00003" />
+--      <option name="project" value="LOCAL" />
+--      <updated>1701120143006</updated>
+--    </task>
+--    <task id="LOCAL-00004" summary="test5">
+--      <option name="closed" value="true" />
+--      <created>1701120209162</created>
+--      <option name="number" value="00004" />
+--      <option name="presentableId" value="LOCAL-00004" />
+--      <option name="project" value="LOCAL" />
+--      <updated>1701120209162</updated>
+--    </task>
+--    <option name="localTasksCounter" value="5" />
+-     <servers />
+-   </component>
+-   <component name="Vcs.Log.Tabs.Properties">
+-@@ -88,11 +65,4 @@
+-       </map>
+-     </option>
+-   </component>
+--  <component name="VcsManagerConfiguration">
+--    <MESSAGE value="test" />
+--    <MESSAGE value="test2" />
+--    <MESSAGE value="test1" />
+--    <MESSAGE value="test5" />
+--    <option name="LAST_COMMIT_MESSAGE" value="test5" />
+--  </component>
+- </project>
+-\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_12_2_23__11_29_AM__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_23__11_29_AM__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_23__11_29_AM__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_23__11_29_AM__Changes_.xml	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ /dev/null	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_12_2_23,_11_29_AM_[Changes]" date="1701509389822" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_23,_11_29_AM_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 12/2/23, 11:29 AM [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: src/Deposit.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public class Deposit extends Transaction{\n    protected Deposit(String date, int value, BankAccount bankAccount) {\n        super(date, value, bankAccount);\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Deposit.java b/src/Deposit.java
+--- a/src/Deposit.java	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ b/src/Deposit.java	(date 1702839907526)
+@@ -1,5 +1,9 @@
+ public class Deposit extends Transaction{
+-    protected Deposit(String date, int value, BankAccount bankAccount) {
++    protected Deposit(String date, double value, BankAccount bankAccount) {
+         super(date, value, bankAccount);
+     }
++    @Override
++    public String toString() {
++        return super.toString() + ' ' + "deposit";
++    }
+ }
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"906cd0c1-b865-4ddb-96b5-7934a7cbe450\" name=\"Changes\" comment=\"add login and Edit Emp info\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_27_2023_11_03_PM__Changes_.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_27_2023_11_16_PM__Changes_.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_27_23__11_08_PM__Changes_.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_27_23__11_33_PM__Changes_.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <excluded-from-favorite>\n      <branch-storage>\n        <map>\n          <entry type=\"REMOTE\">\n            <value>\n              <list>\n                <branch-info repo=\"$PROJECT_DIR$\" source=\"origin/master\" />\n              </list>\n            </value>\n          </entry>\n        </map>\n      </branch-storage>\n    </excluded-from-favorite>\n    <favorite-branches>\n      <branch-storage>\n        <map>\n          <entry type=\"REMOTE\">\n            <value>\n              <list>\n                <branch-info repo=\"$PROJECT_DIR$\" source=\"origin3/master\" />\n              </list>\n            </value>\n          </entry>\n        </map>\n      </branch-storage>\n    </favorite-branches>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 2\n}</component>\n  <component name=\"ProjectId\" id=\"2Yf83Vvq3qHyCzXtolKS1xRXkLe\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <OptionsSetting value=\"false\" id=\"Update\" />\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\n    &quot;onboarding.tips.debug.path&quot;: &quot;/home/kero/IdeaProjects/bank_management_system/src/Main.java&quot;\n  }\n}</component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"906cd0c1-b865-4ddb-96b5-7934a7cbe450\" name=\"Changes\" comment=\"\" />\n      <created>1700905075083</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1700905075083</updated>\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"test\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701119226745</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701119226745</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"test2\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701120003772</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701120003772</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"test1\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701120143006</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701120143006</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"test5\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701120209162</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701120209162</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"add login and Edit Emp info\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701604214892</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701604214892</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"6\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"test\" />\n    <MESSAGE value=\"test2\" />\n    <MESSAGE value=\"test1\" />\n    <MESSAGE value=\"test5\" />\n    <MESSAGE value=\"add login and Edit Emp info\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"add login and Edit Emp info\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ b/.idea/workspace.xml	(date 1702842728010)
+@@ -5,11 +5,20 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="906cd0c1-b865-4ddb-96b5-7934a7cbe450" name="Changes" comment="add login and Edit Emp info">
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_27_2023_11_03_PM__Changes_.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_27_2023_11_16_PM__Changes_.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_27_23__11_08_PM__Changes_.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_27_23__11_33_PM__Changes_.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_23,_11_29_AM_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_2_23__11_29_AM__Changes_.xml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Bank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bank.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/BankAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BankAccount.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Deposit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Deposit.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Employee.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Lists.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lists.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Transaction.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Transfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Transfer.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Withdraw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Withdraw.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -72,7 +81,9 @@
+     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+-    &quot;onboarding.tips.debug.path&quot;: &quot;/home/kero/IdeaProjects/bank_management_system/src/Main.java&quot;
++    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
++    &quot;onboarding.tips.debug.path&quot;: &quot;/home/kero/IdeaProjects/bank_management_system/src/Main.java&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+   }
+ }</component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+Index: src/Lists.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.util.ArrayList;\n\npublic abstract class Lists {\n    public static ArrayList<Client> clients = new ArrayList<Client>();\n    public static ArrayList<Employee> employees = new ArrayList<Employee>();\n    public static ArrayList<Transaction> transactions = new ArrayList<Transaction>();\n\n    public static void getListsFromFiles() {\n    }\n    public static void addListsToFiles(){\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Lists.java b/src/Lists.java
+--- a/src/Lists.java	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ b/src/Lists.java	(date 1702838174851)
+@@ -3,10 +3,14 @@
+ public abstract class Lists {
+     public static ArrayList<Client> clients = new ArrayList<Client>();
+     public static ArrayList<Employee> employees = new ArrayList<Employee>();
++    public static ArrayList<Employee> waitingEmp=new ArrayList<>();
+     public static ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+ 
+     public static void getListsFromFiles() {
++
+     }
+-    public static void addListsToFiles(){
++    public static void addListsToFiles()
++    {
++
+     }
+ }
+Index: src/Withdraw.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public class Withdraw extends Transaction{\n    public Withdraw(String date, int value, BankAccount bankAccount) {\n        super(date, value, bankAccount);\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Withdraw.java b/src/Withdraw.java
+--- a/src/Withdraw.java	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ b/src/Withdraw.java	(date 1702839907530)
+@@ -2,4 +2,8 @@
+     public Withdraw(String date, int value, BankAccount bankAccount) {
+         super(date, value, bankAccount);
+     }
++    @Override
++    public String toString() {
++        return super.toString() + ' ' + "withdraw";
++    }
+ }
+Index: src/Admin.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\npublic class Admin {\n    public String userName;\n\n    public String getPassword() {\n        return password;\n    }\n\n    private String password;\n    public void AuthorizeTheNewEmployees() {}\n    public void DisplayAllClients(){}\n    public void DisplayAllEmployees(){}\n    public void ShowAllTransactions(){}\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Admin.java b/src/Admin.java
+--- a/src/Admin.java	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ b/src/Admin.java	(date 1702845260384)
+@@ -1,14 +1,36 @@
++import java.util.ArrayList;
++import java.util.Scanner;
+ 
+ public class Admin {
+-    public String userName;
++    public void AuthorizeTheNewEmployees(Employee e) {
++          Lists.employees.add(e);
++          Lists.waitingEmp.remove(e);
++    }
+ 
+-    public String getPassword() {
+-        return password;
++    public void NotAuthorizeTheNewEmployees(Employee e) {
++        Lists.waitingEmp.remove(e);
+     }
++    public void DisplayAllNotAuthorizeEmployees(){
++        int i = 0;
++        for (Employee employee: Lists.waitingEmp) {
++            System.out.print(++i);
++            System.out.println(" " + employee);
++        }
+ 
+-    private String password;
+-    public void AuthorizeTheNewEmployees() {}
+-    public void DisplayAllClients(){}
+-    public void DisplayAllEmployees(){}
+-    public void ShowAllTransactions(){}
+-}
++    }
++    public void DisplayAllClients(){
++        for (Client client:Lists.clients) {
++            System.out.println(client);
++        }
++    }
++    public void DisplayAllEmployees(){
++        for (Employee employee:Lists.employees) {
++            System.out.println(employee);
++        }
++    }
++    public void ShowAllTransactions(){
++        for (Transaction transaction:Lists.transactions) {
++            System.out.println(transaction);
++        }
++    }
++}
+\ No newline at end of file
+Index: src/Transfer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public class Transfer extends Transaction{\n    BankAccount recivingBankAccount;\n    protected Transfer(String date, int value, BankAccount bankAccount, BankAccount recivingBankAccount) {\n        super(date, value, bankAccount);\n        this.recivingBankAccount = recivingBankAccount;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Transfer.java b/src/Transfer.java
+--- a/src/Transfer.java	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ b/src/Transfer.java	(date 1702842727650)
+@@ -1,7 +1,12 @@
+ public class Transfer extends Transaction{
+     BankAccount recivingBankAccount;
+-    protected Transfer(String date, int value, BankAccount bankAccount, BankAccount recivingBankAccount) {
++    protected Transfer(String date, double value, BankAccount bankAccount, BankAccount recivingBankAccount) {
+         super(date, value, bankAccount);
+         this.recivingBankAccount = recivingBankAccount;
+     }
++
++    @Override
++    public String toString() {
++        return super.toString() + " Recipient Account: " + recivingBankAccount;
++    }
+ }
+Index: src/Transaction.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public abstract class Transaction {\n    protected String date;\n    protected int value;\n    protected BankAccount bankAccount;\n    protected Transaction(String date, int value, BankAccount bankAccount){\n        this.date = date;\n        this.value = value;\n        this.bankAccount = bankAccount;\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Transaction.java b/src/Transaction.java
+--- a/src/Transaction.java	(revision f962ccb5d6a60c3f1e7398559fc6821c2a4ca0f9)
++++ b/src/Transaction.java	(date 1702764083787)
+@@ -1,10 +1,15 @@
+ public abstract class Transaction {
+     protected String date;
+-    protected int value;
++    protected double value;
+     protected BankAccount bankAccount;
+-    protected Transaction(String date, int value, BankAccount bankAccount){
++    protected Transaction(String date, double value, BankAccount bankAccount){
+         this.date = date;
+         this.value = value;
+         this.bankAccount = bankAccount;
+     }
++    @Override
++    public String toString() {
++        return date + ' ' + value + + ' ' + bankAccount;
++    }
++
+ }
