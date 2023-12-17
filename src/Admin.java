@@ -23,6 +23,9 @@ public class Admin {
             System.out.println(client);
         }
     }
+    public void DisplayOneClient(int x){
+        System.out.println(Lists.clients.get(x));}
+    public void DeleteClient(Client c){Lists.clients.remove(c);}
     public void DisplayAllEmployees(){
         for (Employee employee:Lists.employees) {
             System.out.println(employee);

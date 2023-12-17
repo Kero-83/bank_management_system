@@ -21,7 +21,7 @@ public class Bank {
                     LogInAsAdmin(scanner, admin);
                     break;
                 case 2:
-                    LogInAsEmployee(scanner);
+                    LogInAsEmployee(scanner,admin);
                     break;
                 case 3:
                     LogInAsClient(scanner);
@@ -86,7 +86,7 @@ public class Bank {
         }
 
     }
-    public static void LogInAsEmployee(Scanner scanner){
+    public static void LogInAsEmployee(Scanner scanner,Admin admin){
         String userName, password;
         System.out.print("Username: ");
         userName = scanner.next();
@@ -96,7 +96,7 @@ public class Bank {
         for (Employee employee1: Lists.employees) {
             if (userName.equals(employee1.username) && userName.equals(employee1.password)) {
                 notValid = false;
-                while (true) {
+                window:while (true) {
                     System.out.println("1- Create Client Account");
                     System.out.println("2- Edit Client Account");
                     System.out.println("3- Delete Client Account");
@@ -105,7 +105,45 @@ public class Bank {
                     int choice = scanner.nextInt();
                     switch (choice) {
                         case 1:
-
+                            int id; String clintPassword; String firstName; String surName; String username; String type_of_the_account;
+                            System.out.println("Enter New Clint Information");
+                            System.out.print("Enter ID: ");id= scanner.nextInt();
+                            System.out.print("Enter Client Password ");clintPassword= scanner.next();
+                            System.out.print("Enter First Name: ");firstName= scanner.next();
+                            System.out.print("Enter Last Name: ");surName=scanner.next();
+                            System.out.print("Enter User Name: ");username=scanner.next();
+                            System.out.print("Enter Type of the Account");type_of_the_account= scanner.next();
+                            Lists.clients.add(new Client(id,clintPassword,firstName,surName,username,type_of_the_account));
+                            break;
+                        case 2:
+                            admin.DisplayAllClients();
+                            System.out.print("Choose which one do you want to Edit: ");
+                            int choice2= scanner.nextInt();
+                            Client c= Lists.clients.get(choice2-1);
+                            System.out.println("Choose which Information do you want to Edit: ");
+                            System.out.println("1- user Name");
+                            System.out.println("2- Password");
+                            int choice3= scanner.nextInt();
+                            switch (choice3){
+                                case 1: c.username= scanner.next();
+                                break;
+                                case 2: c.password= scanner.next();
+                            }
+                            break;
+                        case 3:
+                            admin.DisplayAllClients();
+                            System.out.print("Choose which one do you want to Delete: ");
+                            int choice4 = scanner.nextInt();
+                            admin.DeleteClient(Lists.clients.get(choice4 - 1));
+                            break;
+                        case 4:
+                            admin.DisplayAllClients();
+                            System.out.print("Choose which one do you want: ");
+                            int choice5 = scanner.nextInt();
+                            admin.DisplayOneClient(choice5-1);
+                            break;
+                        case 5:
+                            break window;
                     }
                 }
             }
