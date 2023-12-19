@@ -2,18 +2,20 @@ import java.util.Scanner;
 
 public class Employee extends User {
     private static int counterEmp = 0;
+    private String address;
     private String graduatedCollage;
     private String position;
     private String yearOfGraduatioString;
     private String totalGrades;
 
-    public Employee(int id, String password, String firstName, String surName, String username,
+    public Employee(int id, String password, String firstName, String surName, String username, String address,
             String graduatedCollage, String position, String yearOfGraduatioString, String totalGrades) {
         this.id = id;
         this.password = password;
         this.firstName = firstName;
         this.surName = surName;
         this.username = username;
+        this.address = address;
         this.graduatedCollage = graduatedCollage;
         this.position = position;
         this.yearOfGraduatioString = yearOfGraduatioString;
@@ -21,11 +23,12 @@ public class Employee extends User {
     }
 
     public Employee(String password, String firstName, String surName, String username,
+            String address,
             String graduatedCollage,
             String position,
             String yearOfGraduatioString,
             String totalGrades) {
-        this(100 + ++counterEmp, password, firstName, surName, username, graduatedCollage, position,
+        this(100 + ++counterEmp, password, firstName, surName, username, address, graduatedCollage, position,
                 yearOfGraduatioString, totalGrades);
     }
 
@@ -90,6 +93,7 @@ public class Employee extends User {
 
     @Override
     public String stringForFileS() {
-        return super.stringForFileS() + ' ' + graduatedCollage + ' ' + position + ' ' + yearOfGraduatioString + ' ' + totalGrades;
+        return super.stringForFileS() + ' ' + address + ' ' + graduatedCollage + ' ' + position + ' '
+                + yearOfGraduatioString + ' ' + totalGrades;
     }
 }

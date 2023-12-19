@@ -133,11 +133,12 @@ public abstract class Lists {
                 final String firstName = fileScanner.next();
                 final String surName = fileScanner.next();
                 final String userName = fileScanner.next();
+                final String address = fileScanner.next();
                 final String graduatedCollage = fileScanner.next();
                 final String position = fileScanner.next();
                 final String yearOfGraduatioString = fileScanner.next();
                 final String totalGrades = fileScanner.next();
-                employees.add(new Employee(id, password, firstName, surName, userName, graduatedCollage, position,
+                employees.add(new Employee(id, password, firstName, surName, userName, address, graduatedCollage, position,
                         yearOfGraduatioString, totalGrades));
             }
             fileScanner.close();
@@ -178,11 +179,12 @@ public abstract class Lists {
                 final String firstName = fileScanner.next();
                 final String surName = fileScanner.next();
                 final String userName = fileScanner.next();
+                final String address = fileScanner.next();
                 final String graduatedCollage = fileScanner.next();
                 final String position = fileScanner.next();
                 final String yearOfGraduatioString = fileScanner.next();
                 final String totalGrades = fileScanner.next();
-                employees.add(new Employee(id, password, firstName, surName, userName, graduatedCollage, position,
+                waitingEmp.add(new Employee(id, password, firstName, surName, userName, address, graduatedCollage, position,
                         yearOfGraduatioString, totalGrades));
             }
             fileScanner.close();
@@ -242,6 +244,26 @@ public abstract class Lists {
                         Lists.transactions.add(new Transfer(date, value,
                                 new SavingAccount(account_number, balance, state_of_the_account),
                                 new SavingAccount(raccount_number, rbalance, rstate_of_the_account)));
+                    }
+                }
+                else if (transaction_type.equals("Deposit")) {
+                 if (type_of_the_account.equals("Current")) {
+                        Lists.transactions.add(new Deposit(date, value,
+                        new CurrentAccount(account_number, balance, state_of_the_account)));
+                            }
+                    else {
+                        Lists.transactions.add(new Deposit(date, value,
+                        new SavingAccount(account_number, balance, state_of_the_account)));
+                    }
+                }
+                else {
+                    if (type_of_the_account.equals("Current")) {
+                        Lists.transactions.add(new Withdraw(date, value,
+                        new CurrentAccount(account_number, balance, state_of_the_account)));
+                            }
+                    else {
+                        Lists.transactions.add(new Withdraw(date, value,
+                        new SavingAccount(account_number, balance, state_of_the_account)));
                     }
                 }
             }

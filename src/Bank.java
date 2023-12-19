@@ -8,34 +8,36 @@ public class Bank {
         Admin admin = new Admin();
         Boolean window_1 = true;
         Lists.getListsFromFiles();
-        Lists.waitingEmp.add(new Employee("test", "test", "test", "test", "test", "test", "test", "test"));
-        
-        System.out.println(String.valueOf(Lists.savedClients) + ' ' + String.valueOf(Lists.savedEmployees) + ' ' + String.valueOf(Lists.savedWaiting) + ' ' + String.valueOf(Lists.savedTransactions));
-        /*while (window_1) {
-            System.out.println("FCIS Bank Management System");
-            System.out.println("---------------------------");
-            System.out.println("1- Login As Admin");
-            System.out.println("2- Login As Employee");
-            System.out.println("3- Login As Client");
-            System.out.println("4- Exit");
-            int input = scanner.nextInt();
-            switch (input) {
-                case 1:
-                    LogInAsAdmin(scanner, admin);
-                    break;
-                case 2:
-                    LogInAsEmployee(scanner, admin);
-                    break;
-                case 3:
-                    LogInAsClient(scanner);
-                case 4:
-                    window_1 = false;
-                    break;
-                default:
-                    System.out.println("Invalid input");
-                    continue;
-            }
-        } */
+        Lists.waitingEmp.add(new Employee("test", "test", "test", "test", "test", "test", "test", "test", "test"));
+        System.out.println(String.valueOf(Lists.savedClients) + ' ' + String.valueOf(Lists.savedEmployees) + ' '
+                + String.valueOf(Lists.savedWaiting) + ' ' + String.valueOf(Lists.savedTransactions));
+        /*
+         * while (window_1) {
+         * System.out.println("FCIS Bank Management System");
+         * System.out.println("---------------------------");
+         * System.out.println("1- Login As Admin");
+         * System.out.println("2- Login As Employee");
+         * System.out.println("3- Login As Client");
+         * System.out.println("4- Exit");
+         * int input = scanner.nextInt();
+         * switch (input) {
+         * case 1:
+         * LogInAsAdmin(scanner, admin);
+         * break;
+         * case 2:
+         * LogInAsEmployee(scanner, admin);
+         * break;
+         * case 3:
+         * LogInAsClient(scanner);
+         * case 4:
+         * window_1 = false;
+         * break;
+         * default:
+         * System.out.println("Invalid input");
+         * continue;
+         * }
+         * }
+         */
         scanner.close();
         Lists.addListsToFiles();
     }
@@ -190,27 +192,28 @@ public class Bank {
                             client.Display_details_of_his_account();
                             break;
                         case 2:
-                            while (true) {int counter = 0;
-                            for (Client clientn : Lists.clients) {
-                                if (client != clientn) {
-                                    System.out.print(++counter);
-                                    System.out.println(' ' + clientn.toString());
+                            while (true) {
+                                int counter = 0;
+                                for (Client clientn : Lists.clients) {
+                                    if (client != clientn) {
+                                        System.out.print(++counter);
+                                        System.out.println(' ' + clientn.toString());
+                                    }
                                 }
-                            }
-                            System.out.println("Choose client to transfer to");
-                            int choice1 = scanner.nextInt();
-                            if(choice1 <= counter) {
-                                for(int i = 0; i < counter; ++i) {
-                                    if(client == Lists.clients.get(i)) {
-                                        choice1++;
-                                        break;
+                                System.out.println("Choose client to transfer to");
+                                int choice1 = scanner.nextInt();
+                                if (choice1 <= counter) {
+                                    for (int i = 0; i < counter; ++i) {
+                                        if (client == Lists.clients.get(i)) {
+                                            choice1++;
+                                            break;
+                                        }
                                     }
                                 }
                             }
-                            }
                             // break;
                         case 3:
-                            
+
                             break;
                         case 4:
 
