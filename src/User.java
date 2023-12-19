@@ -9,7 +9,10 @@ public abstract class User {
 
     @Override
     public String toString() {
-        return "ID: " + id + " First Name: " + firstName + " Last Name: " + surName;
+        return "ID: " + String.valueOf(id) + " First Name: " + firstName + " Last Name: " + surName;
+    }
+    public String stringForFileS() {
+        return String.valueOf(id) + ' ' + password + ' ' + firstName + ' ' + surName + ' ' + username;
     }
     public void EditPersonalInformation(Scanner scanner){
         window: while (true) {

@@ -8,20 +8,23 @@ public class Bank {
         Admin admin = new Admin();
         Boolean window_1 = true;
         Lists.getListsFromFiles();
-        while (window_1){
+        Lists.waitingEmp.add(new Employee("test", "test", "test", "test", "test", "test", "test", "test"));
+        
+        System.out.println(String.valueOf(Lists.savedClients) + ' ' + String.valueOf(Lists.savedEmployees) + ' ' + String.valueOf(Lists.savedWaiting) + ' ' + String.valueOf(Lists.savedTransactions));
+        /*while (window_1) {
             System.out.println("FCIS Bank Management System");
-            System.out.println();
+            System.out.println("---------------------------");
             System.out.println("1- Login As Admin");
             System.out.println("2- Login As Employee");
             System.out.println("3- Login As Client");
             System.out.println("4- Exit");
             int input = scanner.nextInt();
-            switch (input){
+            switch (input) {
                 case 1:
                     LogInAsAdmin(scanner, admin);
                     break;
                 case 2:
-                    LogInAsEmployee(scanner,admin);
+                    LogInAsEmployee(scanner, admin);
                     break;
                 case 3:
                     LogInAsClient(scanner);
@@ -32,23 +35,23 @@ public class Bank {
                     System.out.println("Invalid input");
                     continue;
             }
-        }
+        } */
+        scanner.close();
         Lists.addListsToFiles();
     }
-    public static void LogInAsAdmin(Scanner scanner, Admin admin){
+
+    public static void LogInAsAdmin(Scanner scanner, Admin admin) {
         String userName, password;
         System.out.print("Username: ");
         userName = scanner.next();
         System.out.print("Password: ");
         password = scanner.next();
-        if (userName.equals("admin")){
+        if (userName.equals("admin")) {
 
-        }
-        else
-        {
+        } else {
             System.out.println("Wrong username");
         }
-        if(password.equals("admin")) {
+        if (password.equals("admin")) {
             window: while (true) {
                 System.out.println("1- Authorize new Employees");
                 System.out.println("2- Display All Clients");
@@ -79,24 +82,23 @@ public class Bank {
                         }
                 }
             }
-        }
-        else
-        {
+        } else {
             System.out.println("Wrong Password");
         }
 
     }
-    public static void LogInAsEmployee(Scanner scanner,Admin admin){
+
+    public static void LogInAsEmployee(Scanner scanner, Admin admin) {
         String userName, password;
         System.out.print("Username: ");
         userName = scanner.next();
         System.out.print("Password: ");
         password = scanner.next();
         boolean notValid = true;
-        for (Employee employee1: Lists.employees) {
-            if (userName.equals(employee1.username) && userName.equals(employee1.password)) {
+        for (Employee employee1 : Lists.employees) {
+            if (userName.equals(employee1.username) && password.equals(employee1.password)) {
                 notValid = false;
-                window:while (true) {
+                window: while (true) {
                     System.out.println("1- Create Client Account");
                     System.out.println("2- Edit Client Account");
                     System.out.println("3- Delete Client Account");
@@ -105,29 +107,41 @@ public class Bank {
                     int choice = scanner.nextInt();
                     switch (choice) {
                         case 1:
-                            int id; String clintPassword; String firstName; String surName; String username; String type_of_the_account;
-                            System.out.println("Enter New Clint Information");
-                            System.out.print("Enter ID: ");id= scanner.nextInt();
-                            System.out.print("Enter Client Password ");clintPassword= scanner.next();
-                            System.out.print("Enter First Name: ");firstName= scanner.next();
-                            System.out.print("Enter Last Name: ");surName=scanner.next();
-                            System.out.print("Enter User Name: ");username=scanner.next();
-                            System.out.print("Enter Type of the Account");type_of_the_account= scanner.next();
-                            Lists.clients.add(new Client(id,clintPassword,firstName,surName,username,type_of_the_account));
+                            int id;
+                            String clientPassword;
+                            String firstName;
+                            String surName;
+                            String username;
+                            String type_of_the_account;
+                            System.out.println("Enter New Client Information");
+                            System.out.print("Enter Client Password ");
+                            clientPassword = scanner.next();
+                            System.out.print("Enter First Name: ");
+                            firstName = scanner.next();
+                            System.out.print("Enter Last Name: ");
+                            surName = scanner.next();
+                            System.out.print("Enter User Name: ");
+                            username = scanner.next();
+                            System.out.print("Enter Type of the Account");
+                            type_of_the_account = scanner.next();
+                            Lists.clients.add(
+                                    new Client(clientPassword, firstName, surName, username, type_of_the_account));
                             break;
                         case 2:
                             admin.DisplayAllClients();
                             System.out.print("Choose which one do you want to Edit: ");
-                            int choice2= scanner.nextInt();
-                            Client c= Lists.clients.get(choice2-1);
+                            int choice2 = scanner.nextInt();
+                            Client c = Lists.clients.get(choice2 - 1);
                             System.out.println("Choose which Information do you want to Edit: ");
                             System.out.println("1- user Name");
                             System.out.println("2- Password");
-                            int choice3= scanner.nextInt();
-                            switch (choice3){
-                                case 1: c.username= scanner.next();
-                                break;
-                                case 2: c.password= scanner.next();
+                            int choice3 = scanner.nextInt();
+                            switch (choice3) {
+                                case 1:
+                                    c.username = scanner.next();
+                                    break;
+                                case 2:
+                                    c.password = scanner.next();
                             }
                             break;
                         case 3:
@@ -140,7 +154,7 @@ public class Bank {
                             admin.DisplayAllClients();
                             System.out.print("Choose which one do you want: ");
                             int choice5 = scanner.nextInt();
-                            admin.DisplayOneClient(choice5-1);
+                            admin.DisplayOneClient(choice5 - 1);
                             break;
                         case 5:
                             break window;
@@ -148,22 +162,74 @@ public class Bank {
                 }
             }
         }
-        if(notValid) {
+        if (notValid) {
             System.out.println("wrong password or username");
         }
     }
-    public static void LogInAsClient(Scanner scanner){
+
+    public static void LogInAsClient(Scanner scanner) {
         String userName, password;
         System.out.print("Username: ");
         userName = scanner.next();
         System.out.print("Password: ");
         password = scanner.next();
-//        if (userName.equals(admin.userName)){
-//            System.out.println("Wrong username");
-//        }
-//        if(password.equals(admin.getPassword())) {
-//            System.out.println("Wrong Password");
-//        }
+        boolean notValid = true;
+        for (Client client : Lists.clients) {
+            if (userName.equals(client.username) && password.equals(client.password)) {
+                notValid = false;
+                window: while (true) {
+                    System.out.println("1- Display details of your account");
+                    System.out.println("2- Transfer money to another account");
+                    System.out.println("3- Deposit");
+                    System.out.println("4- Withdraw");
+                    System.out.println("5- Show Transaction History");
+                    System.out.println("6- Back");
+                    int choice = scanner.nextInt();
+                    switch (choice) {
+                        case 1:
+                            client.Display_details_of_his_account();
+                            break;
+                        case 2:
+                            while (true) {int counter = 0;
+                            for (Client clientn : Lists.clients) {
+                                if (client != clientn) {
+                                    System.out.print(++counter);
+                                    System.out.println(' ' + clientn.toString());
+                                }
+                            }
+                            System.out.println("Choose client to transfer to");
+                            int choice1 = scanner.nextInt();
+                            if(choice1 <= counter) {
+                                for(int i = 0; i < counter; ++i) {
+                                    if(client == Lists.clients.get(i)) {
+                                        choice1++;
+                                        break;
+                                    }
+                                }
+                            }
+                            }
+                            // break;
+                        case 3:
+                            
+                            break;
+                        case 4:
+
+                            break;
+                        case 5:
+
+                            break;
+                        case 6:
+
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+        if (notValid) {
+            System.out.println("wrong password or username");
+        }
 
     }
 }
