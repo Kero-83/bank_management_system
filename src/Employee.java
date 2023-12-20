@@ -10,6 +10,7 @@ public class Employee extends User {
 
     public Employee(int id, String password, String firstName, String surName, String username, String address,
             String graduatedCollage, String position, String yearOfGraduatioString, String totalGrades) {
+        counterEmp++;
         this.id = id;
         this.password = password;
         this.firstName = firstName;
@@ -28,7 +29,7 @@ public class Employee extends User {
             String position,
             String yearOfGraduatioString,
             String totalGrades) {
-        this(100 + ++counterEmp, password, firstName, surName, username, address, graduatedCollage, position,
+        this(101 + counterEmp, password, firstName, surName, username, address, graduatedCollage, position,
                 yearOfGraduatioString, totalGrades);
     }
 

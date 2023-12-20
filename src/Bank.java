@@ -241,8 +241,8 @@ public class Bank {
                                 while (value > client.account.balance) {
                                     System.out.print("Enter value: ");
                                     value = scanner.nextDouble();
-                                    client.Transfer_money_to_another_clients_account(Lists.clients.get(choice1), value, "2022-12-20");
                                 }
+                                client.Transfer_money_to_another_clients_account(Lists.clients.get(choice1), value, "2022-12-20");
                             }
                             // break;
                         case 3:
@@ -256,9 +256,10 @@ public class Bank {
                             double value3 = scanner.nextDouble();
                             while (value3 > client.account.balance) {
                                 System.out.print("Enter value: ");
-                                value = scanner.nextDouble();
-                                client.withdraw(value, "2022-12-20", client.account);
+                                value3 = scanner.nextDouble();
+                               
                             }
+                             client.withdraw(value3, "2022-12-20", client.account);
                             break;
                         case 5:
                             client.showTransactionHistory();

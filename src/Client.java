@@ -4,8 +4,9 @@ public class Client extends User {
     protected String telephone;
 
     public Client(int id, String password, String firstName, String surName,
-    String username,
-            String type_of_the_account,String telephone, String state_of_the_account, double balance) {
+            String username, String type_of_the_account, String telephone, String state_of_the_account,
+            double balance) {
+        counterCli++;
         this.id = id;
         this.password = password;
         this.firstName = firstName;
@@ -21,7 +22,7 @@ public class Client extends User {
 
     public Client(String password, String firstName, String surName, String username,
             String type_of_the_account, String telephone) {
-        this(200 + ++counterCli, password, firstName, surName, username, type_of_the_account,telephone,"Active", 0);
+        this(201 + counterCli, password, firstName, surName, username, type_of_the_account, telephone, "Active", 0);
     }
 
     public void setAccountState(String state) {
@@ -30,25 +31,6 @@ public class Client extends User {
 
     public String getAccountState() {
         return account.state_of_the_account;
-    }
-    public void information(int id, String first_name, String last_name, BankAccount account, String username,
-            String password, String telephone, String state_of_the_account, String type_of_the_account) {
-        this.id = id;
-        this.firstName = first_name;
-        this.surName = last_name;
-        this.account = account;
-        this.password = password;
-        this.telephone = telephone;
-        this.account.state_of_the_account = state_of_the_account;
-        this.account.type_of_the_account = type_of_the_account;
-        this.account.balance = account.balance;
-    }
-
-    public void Edit_personal_information(String first_name, String last_name, String telephone) {
-        this.firstName = first_name;
-        this.surName = last_name;
-        this.telephone = telephone;
-
     }
 
     public void Display_details_of_his_account() {
@@ -79,11 +61,13 @@ public class Client extends User {
         System.out.println("Deposit successful ! .\n Current balance :" + account.balance);
         Lists.transactions.add(new Deposit(date, amount, bankAccount));
     }
+
     public void withdraw(double amount, String date, BankAccount bankAccount) {
         account.balance -= amount;
         System.out.println("Withdraw successful ! .\n Current balance :" + account.balance);
         Lists.transactions.add(new Withdraw(date, amount, bankAccount));
     }
+
     public void showTransactionHistory() {
         for (Transaction transaction : Lists.transactions) {
             if (transaction.bankAccount == account) {
@@ -96,7 +80,7 @@ public class Client extends User {
     public String toString() {
         return super.toString();
     }
-    
+
     @Override
     public String stringForFileS() {
         return super.stringForFileS() + ' ' + account.toString();

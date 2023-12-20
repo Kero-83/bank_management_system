@@ -1,0 +1,133 @@
+Index: src/Bank.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.util.Scanner;\n\n// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,\n// then press Enter. You can now see whitespace characters in your code.\npublic class Bank {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        Admin admin = new Admin();\n        Boolean window_1 = true;\n        Lists.getListsFromFiles();\n        Lists.waitingEmp.add(new Employee(\"test\", \"test\", \"test\", \"test\", \"test\", \"test\", \"test\", \"test\", \"test\"));\n        System.out.println(String.valueOf(Lists.savedClients) + ' ' + String.valueOf(Lists.savedEmployees) + ' '\n                + String.valueOf(Lists.savedWaiting) + ' ' + String.valueOf(Lists.savedTransactions));\n        /*\n         * while (window_1) {\n         * System.out.println(\"FCIS Bank Management System\");\n         * System.out.println(\"---------------------------\");\n         * System.out.println(\"1- Login As Admin\");\n         * System.out.println(\"2- Login As Employee\");\n         * System.out.println(\"3- Login As Client\");\n         * System.out.println(\"4- Exit\");\n         * int input = scanner.nextInt();\n         * switch (input) {\n         * case 1:\n         * LogInAsAdmin(scanner, admin);\n         * break;\n         * case 2:\n         * LogInAsEmployee(scanner, admin);\n         * break;\n         * case 3:\n         * LogInAsClient(scanner);\n         * case 4:\n         * window_1 = false;\n         * break;\n         * default:\n         * System.out.println(\"Invalid input\");\n         * continue;\n         * }\n         * }\n         */\n        scanner.close();\n        Lists.addListsToFiles();\n    }\n\n    public static void LogInAsAdmin(Scanner scanner, Admin admin) {\n        String userName, password;\n        System.out.print(\"Username: \");\n        userName = scanner.next();\n        System.out.print(\"Password: \");\n        password = scanner.next();\n        if (userName.equals(\"admin\")) {\n\n        } else {\n            System.out.println(\"Wrong username\");\n        }\n        if (password.equals(\"admin\")) {\n            window: while (true) {\n                System.out.println(\"1- Authorize new Employees\");\n                System.out.println(\"2- Display All Clients\");\n                System.out.println(\"3- Display All Employees\");\n                System.out.println(\"4- Show All Transactions\");\n                int choice = scanner.nextInt();\n                switch (choice) {\n                    case 1:\n                        System.out.println(\"Actions:\");\n                        System.out.println(\"1- Authorize Employee\");\n                        System.out.println(\"2- Remove from Waiting\");\n                        System.out.println(\"3- Exit\");\n                        int choice1 = scanner.nextInt();\n                        switch (choice1) {\n                            case 1:\n                                admin.DisplayAllNotAuthorizeEmployees();\n                                System.out.print(\"Choose which one do you want to authorize: \");\n                                int choice2 = scanner.nextInt();\n                                admin.AuthorizeTheNewEmployees(Lists.employees.get(choice2 - 1));\n                                break;\n                            case 2:\n                                admin.DisplayAllNotAuthorizeEmployees();\n                                System.out.print(\"Choose which one do you want to remove: \");\n                                int choice3 = scanner.nextInt();\n                                admin.NotAuthorizeTheNewEmployees(Lists.employees.get(choice3 - 1));\n                            case 3:\n                                break window;\n                        }\n                }\n            }\n        } else {\n            System.out.println(\"Wrong Password\");\n        }\n\n    }\n\n    public static void LogInAsEmployee(Scanner scanner, Admin admin) {\n        String userName, password;\n        System.out.print(\"Username: \");\n        userName = scanner.next();\n        System.out.print(\"Password: \");\n        password = scanner.next();\n        boolean notValid = true;\n        for (Employee employee1 : Lists.employees) {\n            if (userName.equals(employee1.username) && password.equals(employee1.password)) {\n                notValid = false;\n                window: while (true) {\n                    System.out.println(\"1- Create Client Account\");\n                    System.out.println(\"2- Edit Client Account\");\n                    System.out.println(\"3- Delete Client Account\");\n                    System.out.println(\"4- Search for Client Account\");\n                    System.out.println(\"5- Exit\");\n                    int choice = scanner.nextInt();\n                    switch (choice) {\n                        case 1:\n                            int id;\n                            String clientPassword;\n                            String firstName;\n                            String surName;\n                            String username;\n                            String type_of_the_account;\n                            System.out.println(\"Enter New Client Information\");\n                            System.out.print(\"Enter Client Password \");\n                            clientPassword = scanner.next();\n                            System.out.print(\"Enter First Name: \");\n                            firstName = scanner.next();\n                            System.out.print(\"Enter Last Name: \");\n                            surName = scanner.next();\n                            System.out.print(\"Enter User Name: \");\n                            username = scanner.next();\n                            System.out.print(\"Enter Type of the Account\");\n                            type_of_the_account = scanner.next();\n                            Lists.clients.add(\n                                    new Client(clientPassword, firstName, surName, username, type_of_the_account));\n                            break;\n                        case 2:\n                            admin.DisplayAllClients();\n                            System.out.print(\"Choose which one do you want to Edit: \");\n                            int choice2 = scanner.nextInt();\n                            Client c = Lists.clients.get(choice2 - 1);\n                            System.out.println(\"Choose which Information do you want to Edit: \");\n                            System.out.println(\"1- user Name\");\n                            System.out.println(\"2- Password\");\n                            int choice3 = scanner.nextInt();\n                            switch (choice3) {\n                                case 1:\n                                    c.username = scanner.next();\n                                    break;\n                                case 2:\n                                    c.password = scanner.next();\n                            }\n                            break;\n                        case 3:\n                            admin.DisplayAllClients();\n                            System.out.print(\"Choose which one do you want to Delete: \");\n                            int choice4 = scanner.nextInt();\n                            admin.DeleteClient(Lists.clients.get(choice4 - 1));\n                            break;\n                        case 4:\n                            admin.DisplayAllClients();\n                            System.out.print(\"Choose which one do you want: \");\n                            int choice5 = scanner.nextInt();\n                            admin.DisplayOneClient(choice5 - 1);\n                            break;\n                        case 5:\n                            break window;\n                    }\n                }\n            }\n        }\n        if (notValid) {\n            System.out.println(\"wrong password or username\");\n        }\n    }\n\n    public static void LogInAsClient(Scanner scanner) {\n        String userName, password;\n        System.out.print(\"Username: \");\n        userName = scanner.next();\n        System.out.print(\"Password: \");\n        password = scanner.next();\n        boolean notValid = true;\n        for (Client client : Lists.clients) {\n            if (userName.equals(client.username) && password.equals(client.password)) {\n                notValid = false;\n                window: while (true) {\n                    System.out.println(\"1- Display details of your account\");\n                    System.out.println(\"2- Transfer money to another account\");\n                    System.out.println(\"3- Deposit\");\n                    System.out.println(\"4- Withdraw\");\n                    System.out.println(\"5- Show Transaction History\");\n                    System.out.println(\"6- Back\");\n                    int choice = scanner.nextInt();\n                    switch (choice) {\n                        case 1:\n                            client.Display_details_of_his_account();\n                            break;\n                        case 2:\n                            while (true) {\n                                int counter = 0;\n                                for (Client clientn : Lists.clients) {\n                                    if (client != clientn) {\n                                        System.out.print(++counter);\n                                        System.out.println(' ' + clientn.toString());\n                                    }\n                                }\n                                System.out.println(\"Choose client to transfer to\");\n                                int choice1 = scanner.nextInt();\n                                if (choice1 <= counter) {\n                                    for (int i = 0; i < counter; ++i) {\n                                        if (client == Lists.clients.get(i)) {\n                                            choice1++;\n                                            break;\n                                        }\n                                    }\n                                }\n                            }\n                            // break;\n                        case 3:\n\n                            break;\n                        case 4:\n\n                            break;\n                        case 5:\n\n                            break;\n                        case 6:\n\n                            break;\n                        default:\n                            break;\n                    }\n                }\n            }\n        }\n        if (notValid) {\n            System.out.println(\"wrong password or username\");\n        }\n\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Bank.java b/src/Bank.java
+--- a/src/Bank.java	(revision da2f00156b057af9a5904506b12542e2bf0e0467)
++++ b/src/Bank.java	(date 1703099788631)
+@@ -11,33 +11,32 @@
+         Lists.waitingEmp.add(new Employee("test", "test", "test", "test", "test", "test", "test", "test", "test"));
+         System.out.println(String.valueOf(Lists.savedClients) + ' ' + String.valueOf(Lists.savedEmployees) + ' '
+                 + String.valueOf(Lists.savedWaiting) + ' ' + String.valueOf(Lists.savedTransactions));
+-        /*
+-         * while (window_1) {
+-         * System.out.println("FCIS Bank Management System");
+-         * System.out.println("---------------------------");
+-         * System.out.println("1- Login As Admin");
+-         * System.out.println("2- Login As Employee");
+-         * System.out.println("3- Login As Client");
+-         * System.out.println("4- Exit");
+-         * int input = scanner.nextInt();
+-         * switch (input) {
+-         * case 1:
+-         * LogInAsAdmin(scanner, admin);
+-         * break;
+-         * case 2:
+-         * LogInAsEmployee(scanner, admin);
+-         * break;
+-         * case 3:
+-         * LogInAsClient(scanner);
+-         * case 4:
+-         * window_1 = false;
+-         * break;
+-         * default:
+-         * System.out.println("Invalid input");
+-         * continue;
+-         * }
+-         * }
+-         */
++          while (window_1) {
++          System.out.println("FCIS Bank Management System");
++          System.out.println("---------------------------");
++          System.out.println("1- Login As Admin");
++          System.out.println("2- Login As Employee");
++          System.out.println("3- Login As Client");
++          System.out.println("4- Exit");
++          int input = scanner.nextInt();
++          switch (input) {
++          case 1:
++          LogInAsAdmin(scanner, admin);
++          break;
++          case 2:
++          LogInAsEmployee(scanner, admin);
++          break;
++          case 3:
++          LogInAsClient(scanner);
++          break;
++          case 4:
++          window_1 = false;
++          break;
++          default:
++          System.out.println("Invalid input");
++          continue;
++          }
++          }
+         scanner.close();
+         Lists.addListsToFiles();
+     }
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># bank_management_system\n## FCIS ASU Level 2 Semester 3\n### OOP Project\ntest fork\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision da2f00156b057af9a5904506b12542e2bf0e0467)
++++ b/README.md	(date 1703100231294)
+@@ -1,4 +1,16 @@
+ # bank_management_system
+-## FCIS ASU Level 2 Semester 3
+-### OOP Project
+-test fork
++# OOP Project
++## Classes:
++    Bank:
++        Log in as Admin(): method to Log in as Admin
++        Log in as Employee(): method to Log in as Employee
++        Log in as Client(): method to Log in as Client
++    Admin:
++        AuthorizeTheNewEmployees(): method to authorize new Employees 
++        NotAuthorizeTheNewEmployees(): method to not authorize new Employees
++        DisplayAllNotAuthorizeEmployees(): method to display the Not Authorized Employees 
++        DisplayAllClients():
++        DisplayOneClient(): 
++        DeleteClient():
++        DisplayAllEmployees():
++        ShowAllTransactions():
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"906cd0c1-b865-4ddb-96b5-7934a7cbe450\" name=\"Changes\" comment=\"add login and Edit Emp info\">\n      <change beforePath=\"$PROJECT_DIR$/src/Admin.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Admin.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/Bank.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Bank.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/BankAccount.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/BankAccount.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/Client.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Client.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/CurrentAccount.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/CurrentAccount.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/Deposit.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Deposit.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/Employee.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Employee.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/Lists.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Lists.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/SavingAccount.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/SavingAccount.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/Transaction.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Transaction.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/Transfer.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Transfer.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/User.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/User.java\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/src/Withdraw.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Withdraw.java\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <excluded-from-favorite>\n      <branch-storage>\n        <map>\n          <entry type=\"REMOTE\">\n            <value>\n              <list>\n                <branch-info repo=\"$PROJECT_DIR$\" source=\"origin/master\" />\n              </list>\n            </value>\n          </entry>\n        </map>\n      </branch-storage>\n    </excluded-from-favorite>\n    <favorite-branches>\n      <branch-storage>\n        <map>\n          <entry type=\"REMOTE\">\n            <value>\n              <list>\n                <branch-info repo=\"$PROJECT_DIR$\" source=\"origin3/master\" />\n              </list>\n            </value>\n          </entry>\n        </map>\n      </branch-storage>\n    </favorite-branches>\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 2\n}</component>\n  <component name=\"ProjectId\" id=\"2Yf83Vvq3qHyCzXtolKS1xRXkLe\" />\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\n    <OptionsSetting value=\"false\" id=\"Update\" />\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\">{\n  &quot;keyToString&quot;: {\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\n    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,\n    &quot;onboarding.tips.debug.path&quot;: &quot;/home/kero/IdeaProjects/bank_management_system/src/Main.java&quot;,\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;\n  }\n}</component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"906cd0c1-b865-4ddb-96b5-7934a7cbe450\" name=\"Changes\" comment=\"\" />\n      <created>1700905075083</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1700905075083</updated>\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"test\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701119226745</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701119226745</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"test2\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701120003772</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701120003772</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"test1\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701120143006</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701120143006</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"test5\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701120209162</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701120209162</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"add login and Edit Emp info\">\n      <option name=\"closed\" value=\"true\" />\n      <created>1701604214892</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1701604214892</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"6\" />\n    <servers />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State />\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"test\" />\n    <MESSAGE value=\"test2\" />\n    <MESSAGE value=\"test1\" />\n    <MESSAGE value=\"test5\" />\n    <MESSAGE value=\"add login and Edit Emp info\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"add login and Edit Emp info\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision da2f00156b057af9a5904506b12542e2bf0e0467)
++++ b/.idea/workspace.xml	(date 1703099937654)
+@@ -5,19 +5,9 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="906cd0c1-b865-4ddb-96b5-7934a7cbe450" name="Changes" comment="add login and Edit Emp info">
+-      <change beforePath="$PROJECT_DIR$/src/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Admin.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/Bank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bank.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/BankAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BankAccount.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Client.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/CurrentAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CurrentAccount.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/Deposit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Deposit.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Employee.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/Lists.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Lists.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/SavingAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SavingAccount.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Transaction.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/Transfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Transfer.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/User.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/Withdraw.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Withdraw.java" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
