@@ -30,7 +30,7 @@
         CreateClientAccount(Client client): method to Create new Client
         EditClientAccount(Scanner scanner, Client client): method to Edit Client Account
         DeleteClientAccount(Client client): method to Delete Client Account
-        SearchForClientAccount(String clientName): method to Search for Client Account By Username
+        SearchForClientAccount(String userame): method to Search for Client Account By Username
     Client:
         setAccountState(): Setter for State of the account attribute
         getAccountState(): Getter for State of the account attribute
