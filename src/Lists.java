@@ -94,8 +94,9 @@ public abstract class Lists {
                 final double balance = fileScanner.nextDouble();
                 final String state_of_the_account = fileScanner.next();
                 final String type_of_the_account = fileScanner.next();
+                final String telephone = fileScanner.next();
                 clients.add(new Client(id, password, firstName, surName, userName, type_of_the_account,
-                        state_of_the_account, balance));
+                        telephone,state_of_the_account, balance));
             }
             fileScanner.close();
             System.out.println(); // Add a newline for better separation of file contents

@@ -12,14 +12,16 @@ public class Admin {
         int i = 0;
         for (Employee employee : Lists.waitingEmp) {
             System.out.print(++i);
-            System.out.println(" " + employee);
+            System.out.println(" " + employee.toString());
         }
 
     }
 
     public void DisplayAllClients() {
+        int i = 0;
         for (Client client : Lists.clients) {
-            System.out.println(client);
+            System.out.print(String.valueOf(++i) + "- ");
+            System.out.println(client.stringForFileS());
         }
     }
 
@@ -33,13 +35,13 @@ public class Admin {
 
     public void DisplayAllEmployees() {
         for (Employee employee : Lists.employees) {
-            System.out.println(employee);
+            System.out.println(employee.toString());
         }
     }
 
     public void ShowAllTransactions() {
         for (Transaction transaction : Lists.transactions) {
-            System.out.println(transaction);
+            System.out.println(transaction.toString());
         }
     }
 }

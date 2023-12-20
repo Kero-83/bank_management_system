@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -7,43 +8,46 @@ public class Bank {
         Scanner scanner = new Scanner(System.in);
         Admin admin = new Admin();
         Boolean window_1 = true;
+//        Lists.waitingEmp.add(new Employee("test", "kero", "gerges", "kerog", "imbaba", "AinShams", "Newbie", "2026", "VeryGood"));
+//        Lists.waitingEmp.add(new Employee("test", "kero", "magdy", "keromagdy", "Marg", "AinShams", "Newbie", "2026", "VeryGood"));
         Lists.getListsFromFiles();
-        Lists.waitingEmp.add(new Employee("test", "test", "test", "test", "test", "test", "test", "test", "test"));
+//        Lists.waitingEmp.add(new Employee("test", "kero", "fawzy", "kerosarwat", "imbaba", "AinShams", "Leader", "2026", "VeryGood"));
+//        Lists.waitingEmp.add(new Employee("test", "kero", "magdy", "keromagdy", "Marg", "AinShams", "Newbie", "2026", "VeryGood"));
         System.out.println(String.valueOf(Lists.savedClients) + ' ' + String.valueOf(Lists.savedEmployees) + ' '
                 + String.valueOf(Lists.savedWaiting) + ' ' + String.valueOf(Lists.savedTransactions));
-        /*
-         * while (window_1) {
-         * System.out.println("FCIS Bank Management System");
-         * System.out.println("---------------------------");
-         * System.out.println("1- Login As Admin");
-         * System.out.println("2- Login As Employee");
-         * System.out.println("3- Login As Client");
-         * System.out.println("4- Exit");
-         * int input = scanner.nextInt();
-         * switch (input) {
-         * case 1:
-         * LogInAsAdmin(scanner, admin);
-         * break;
-         * case 2:
-         * LogInAsEmployee(scanner, admin);
-         * break;
-         * case 3:
-         * LogInAsClient(scanner);
-         * case 4:
-         * window_1 = false;
-         * break;
-         * default:
-         * System.out.println("Invalid input");
-         * continue;
-         * }
-         * }
-         */
+          while (window_1) {
+          System.out.println("FCIS Bank Management System");
+          System.out.println("---------------------------");
+          System.out.println("1- Login As Admin");
+          System.out.println("2- Login As Employee");
+          System.out.println("3- Login As Client");
+          System.out.println("4- Exit");
+          int input = scanner.nextInt();
+          switch (input) {
+          case 1:
+          LogInAsAdmin(scanner, admin);
+          break;
+          case 2:
+          LogInAsEmployee(scanner, admin);
+          break;
+          case 3:
+          LogInAsClient(scanner);
+          case 4:
+          window_1 = false;
+          break;
+          default:
+          System.out.println("Invalid input");
+          continue;
+          }
+          }
+
         scanner.close();
         Lists.addListsToFiles();
     }
 
     public static void LogInAsAdmin(Scanner scanner, Admin admin) {
         String userName, password;
+        boolean window = true , window1 = true;
         System.out.print("Username: ");
         userName = scanner.next();
         System.out.print("Password: ");
@@ -54,34 +58,53 @@ public class Bank {
             System.out.println("Wrong username");
         }
         if (password.equals("admin")) {
-            window: while (true) {
+            while (window) {
                 System.out.println("1- Authorize new Employees");
                 System.out.println("2- Display All Clients");
                 System.out.println("3- Display All Employees");
                 System.out.println("4- Show All Transactions");
+                System.out.println("5- Back");
                 int choice = scanner.nextInt();
                 switch (choice) {
                     case 1:
-                        System.out.println("Actions:");
-                        System.out.println("1- Authorize Employee");
-                        System.out.println("2- Remove from Waiting");
-                        System.out.println("3- Exit");
-                        int choice1 = scanner.nextInt();
-                        switch (choice1) {
-                            case 1:
-                                admin.DisplayAllNotAuthorizeEmployees();
-                                System.out.print("Choose which one do you want to authorize: ");
-                                int choice2 = scanner.nextInt();
-                                admin.AuthorizeTheNewEmployees(Lists.employees.get(choice2 - 1));
-                                break;
-                            case 2:
-                                admin.DisplayAllNotAuthorizeEmployees();
-                                System.out.print("Choose which one do you want to remove: ");
-                                int choice3 = scanner.nextInt();
-                                admin.NotAuthorizeTheNewEmployees(Lists.employees.get(choice3 - 1));
-                            case 3:
-                                break window;
+                        while (window1) {
+                            System.out.println("Actions:");
+                            System.out.println("1- Authorize Employee");
+                            System.out.println("2- Remove from Waiting");
+                            System.out.println("3- Exit");
+                            int choice1 = scanner.nextInt();
+                            switch (choice1) {
+                                case 1:
+                                    admin.DisplayAllNotAuthorizeEmployees();
+                                    System.out.print("Choose which one do you want to authorize: ");
+                                    int choice2 = scanner.nextInt();
+                                    admin.AuthorizeTheNewEmployees(Lists.waitingEmp.get(choice2 - 1));
+                                    break;
+                                case 2:
+                                    admin.DisplayAllNotAuthorizeEmployees();
+                                    System.out.print("Choose which one do you want to remove: ");
+                                    int choice3 = scanner.nextInt();
+                                    admin.NotAuthorizeTheNewEmployees(Lists.employees.get(choice3 - 1));
+                                    break;
+                                case 3:
+                                    window1 = false;
+                                    break;
+                            }
                         }
+                    case 2:
+                        admin.DisplayAllClients();
+                        break;
+                    case 3:
+                        admin.DisplayAllEmployees();
+                        break;
+                    case 4:
+                        admin.ShowAllTransactions();
+                        break;
+                    case 5:
+                        window = false;
+                        break;
+                    default:
+                        System.out.println("Wrong choice");
                 }
             }
         } else {
@@ -115,8 +138,9 @@ public class Bank {
                             String surName;
                             String username;
                             String type_of_the_account;
+                            String telephone;
                             System.out.println("Enter New Client Information");
-                            System.out.print("Enter Client Password ");
+                            System.out.print("Enter Client Password: ");
                             clientPassword = scanner.next();
                             System.out.print("Enter First Name: ");
                             firstName = scanner.next();
@@ -124,10 +148,12 @@ public class Bank {
                             surName = scanner.next();
                             System.out.print("Enter User Name: ");
                             username = scanner.next();
-                            System.out.print("Enter Type of the Account");
+                            System.out.print("Enter Type of the Account: ");
                             type_of_the_account = scanner.next();
+                            System.out.println("Enter Telephone: ");
+                            telephone = scanner.next();
                             Lists.clients.add(
-                                    new Client(clientPassword, firstName, surName, username, type_of_the_account));
+                                    new Client(clientPassword, firstName, surName, username, type_of_the_account, telephone));
                             break;
                         case 2:
                             admin.DisplayAllClients();
@@ -140,9 +166,11 @@ public class Bank {
                             int choice3 = scanner.nextInt();
                             switch (choice3) {
                                 case 1:
+                                    System.out.print("Enter username: ");
                                     c.username = scanner.next();
                                     break;
                                 case 2:
+                                    System.out.print("Enter Password: ");
                                     c.password = scanner.next();
                             }
                             break;
@@ -153,10 +181,8 @@ public class Bank {
                             admin.DeleteClient(Lists.clients.get(choice4 - 1));
                             break;
                         case 4:
-                            admin.DisplayAllClients();
-                            System.out.print("Choose which one do you want: ");
-                            int choice5 = scanner.nextInt();
-                            admin.DisplayOneClient(choice5 - 1);
+                            System.out.println("Enter username of client: ");
+                            employee1.SearchForClientAccount(scanner.next());
                             break;
                         case 5:
                             break window;
@@ -210,21 +236,37 @@ public class Bank {
                                         }
                                     }
                                 }
+                                System.out.print("Enter value: ");
+                                double value = scanner.nextDouble();
+                                while (value > client.account.balance) {
+                                    System.out.print("Enter value: ");
+                                    value = scanner.nextDouble();
+                                    client.Transfer_money_to_another_clients_account(Lists.clients.get(choice1), value, "2022-12-20");
+                                }
                             }
                             // break;
                         case 3:
-
+                            System.out.println("Enter value: ");
+                            double value = scanner.nextDouble();
+                            System.out.print("Enter value: ");
+                            client.deposit(value, "2022-12-20", client.account);
                             break;
                         case 4:
-
+                            System.out.println("Enter value: ");
+                            double value3 = scanner.nextDouble();
+                            while (value3 > client.account.balance) {
+                                System.out.print("Enter value: ");
+                                value = scanner.nextDouble();
+                                client.withdraw(value, "2022-12-20", client.account);
+                            }
                             break;
                         case 5:
-
+                            client.showTransactionHistory();
                             break;
                         case 6:
-
-                            break;
+                            break window;
                         default:
+                            System.out.println("Wrong choice");
                             break;
                     }
                 }

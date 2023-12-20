@@ -1,15 +1,16 @@
 public class Client extends User {
     private static int counterCli = 0;
-    private BankAccount account;
+    protected BankAccount account;
     protected String telephone;
 
     public Client(int id, String password, String firstName, String surName,
     String username,
-            String type_of_the_account, String state_of_the_account, double balance) {
+            String type_of_the_account,String telephone, String state_of_the_account, double balance) {
         this.id = id;
         this.password = password;
         this.firstName = firstName;
         this.surName = surName;
+        this.telephone = telephone;
         this.username = username;
         if (type_of_the_account.equals("Current")) {
             account = new CurrentAccount(100 + id, balance, state_of_the_account);
@@ -19,8 +20,8 @@ public class Client extends User {
     }
 
     public Client(String password, String firstName, String surName, String username,
-            String type_of_the_account) {
-        this(200 + ++counterCli, password, firstName, surName, username, type_of_the_account,"Active", 0);
+            String type_of_the_account, String telephone) {
+        this(200 + ++counterCli, password, firstName, surName, username, type_of_the_account,telephone,"Active", 0);
     }
 
     public void setAccountState(String state) {
@@ -78,7 +79,11 @@ public class Client extends User {
         System.out.println("Deposit successful ! .\n Current balance :" + account.balance);
         Lists.transactions.add(new Deposit(date, amount, bankAccount));
     }
-
+    public void withdraw(double amount, String date, BankAccount bankAccount) {
+        account.balance -= amount;
+        System.out.println("Withdraw successful ! .\n Current balance :" + account.balance);
+        Lists.transactions.add(new Withdraw(date, amount, bankAccount));
+    }
     public void showTransactionHistory() {
         for (Transaction transaction : Lists.transactions) {
             if (transaction.bankAccount == account) {

@@ -54,7 +54,7 @@ public class Employee extends User {
                     System.out.println("Enter Yes if you want to change it the another state");
                     String choice2 = scanner.next();
                     if (choice2.equals("Yes")) {
-                        if (client.getAccountState() == "Active") {
+                        if (client.getAccountState().equals("Active")) {
                             client.setAccountState("closed");
                         } else {
                             client.setAccountState("Active");
@@ -79,8 +79,7 @@ public class Employee extends User {
 
     public void SearchForClientAccount(String clientName) {
         for (Client client : Lists.clients) {
-            String name = client.firstName + ' ' + client.surName;
-            if (name.equals(clientName)) {
+            if (client.username.equals(clientName)) {
                 System.out.println(client);
             }
         }
